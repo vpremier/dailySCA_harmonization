@@ -1,0 +1,11 @@
+{
+  "catchment": "Area10",
+  "hy_xxxx": "hy2223",
+  "emisphere": "South",
+  "dirname": "/mnt/CEPH_PROJECTS/SNOWCOP/Paloma/Area10/daily_sca",
+  "outdir": "/mnt/CEPH_PROJECTS/SNOWCOP/Paloma/Area10/sca_harm",
+  "DEM_path": "/mnt/CEPH_PROJECTS/SNOWCOP/Paloma/Area10/Sentinel2/01_TEST_auxiliary_folder/Sentinel2_DEM.tif",
+  "temp_dir": "/mnt/CEPH_PROJECTS/SNOWCOP/paloma_micromet/Area10/Micromet/outputs/Temperature",
+  "era5_dir": "/mnt/CEPH_PROJECTS/SNOWCOP/paloma_micromet/Area10/Micromet/inputs/climate",
+  "pixel_ratio": 10
+}
