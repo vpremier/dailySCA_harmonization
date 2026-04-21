@@ -3,10 +3,12 @@
 # Exit if any command fails
 set -e
 
-# Activate conda environment
-echo "Activating conda environment 'swe_processing'..."
-source $(conda info --base)/etc/profile.d/conda.sh
-conda activate swe_processing
+# Initialize micromamba shell (only needed once per session/script)
+eval "$(micromamba shell hook --shell bash)"
+
+# Activate environment
+echo "Activating micromamba environment 'snowmap'..."
+micromamba activate snowmap
 
 # Path to your Python script and config
 SCRIPT_PATH="./main_correction.py"

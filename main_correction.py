@@ -21,7 +21,6 @@ from correction import *
 from utils import *
 from loading import *
 
-from kriging import get_kriging
 
     
     
@@ -150,6 +149,7 @@ def run_harmonization(config_path):
         stack_HR = stack_HR.rio.write_crs(epsg_code['projection'], inplace=True)  
 
         ta = load_micromet(temp_dir, hy_xxxx)
+        ta = ta.where(ta>0)
         
         era5 = load_era5land(era5_dir, hy_xxxx)
         pr = era5.tp
@@ -162,7 +162,7 @@ def run_harmonization(config_path):
         HR_dates = (df.filter(like="HR_fileName") != 'M').any(axis=1)
         
         # status
-        status = (ta['t2m'] < 274.15) & (pr_reprojected > 1)
+        status = (ta['t2m'] < 275.15) & (pr_reprojected > 3)
         # status = buffer(status, n = 10)
         # status = set_all_to_one_per_timestep(status)
    
@@ -224,7 +224,7 @@ def run_harmonization(config_path):
         ax2.plot(df.index, ta_mean, color='tab:red', label='Temperature (K)')
         ax2.set_ylabel('Mean Temperature (K)', color='tab:red')
         ax2.tick_params(axis='y', labelcolor='tab:red')
-        ax2.axhline(274.15, color='gray', linestyle='--', label='1°C (274.15 K)')  # Zero degree line
+        ax2.axhline(275.15, color='gray', linestyle='--', label='2°C (275.15 K)')  # Zero degree line
         
         # Right y-axis → Precipitation (bar)
         ax3 = ax2.twinx()

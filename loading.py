@@ -48,8 +48,8 @@ def load_micromet(wd, hy):
     year_start, year_end = hy[2:4], hy[4:6]
     
     # Create file patterns for the two years
-    year1_pattern = os.path.join(wd, f"*_downscaled_20{year_start}_*.nc")
-    year2_pattern = os.path.join(wd, f"*_downscaled_20{year_end}_*.nc")
+    year1_pattern = os.path.join(wd, f"*_downscaled_20{year_start}_*.zarr")
+    year2_pattern = os.path.join(wd, f"*_downscaled_20{year_end}_*.zarr")
     
     files = glob.glob(year1_pattern) + glob.glob(year2_pattern)
 

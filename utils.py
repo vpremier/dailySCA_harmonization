@@ -217,9 +217,17 @@ def save_nc(outname, array, info, df, varname, unit, scale=1, dtype = 'int32',
                          
     da.rio.write_coordinate_system("epsg:" + srs.GetAttrValue('AUTHORITY',1))
     
-    encode = {varname: {'zlib': True, 'complevel':complevel, 
-                        'scale_factor': scale,
-                        'dtype': dtype}} 
+    encode = {
+        varname: {
+            'zlib': True,
+            'complevel': complevel,
+            'dtype': dtype
+        }
+    }
+    
+    # Only add scale_factor if different from 1
+    if scale != 1:
+        encode[varname]['scale_factor'] = scale
     
     da.to_netcdf(outname, encoding=encode)
     
