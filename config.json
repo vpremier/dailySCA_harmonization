@@ -1,11 +1,11 @@
 {
-  "catchment": "Area10",
-  "hy_xxxx": "hy2223",
+  "catchment": "Area06",
+  "hy_xxxx": "hy1314",
   "emisphere": "South",
-  "dirname": "/mnt/CEPH_PROJECTS/SNOWCOP/Paloma/Area10/daily_sca",
-  "outdir": "/mnt/CEPH_PROJECTS/SNOWCOP/Paloma/Area10/sca_harm_bias",
-  "DEM_path": "/mnt/CEPH_PROJECTS/SNOWCOP/Paloma/Area10/Sentinel2/01_TEST_auxiliary_folder/Sentinel2_DEM.tif",
-  "temp_dir": "/mnt/CEPH_PROJECTS/SNOWCOP/Paloma/Area10/Micromet/outputs/Temperature_biascorr",
-  "era5_dir": "/mnt/CEPH_PROJECTS/SNOWCOP/Paloma/Area10/Micromet/inputs/climate",
+  "dirname": "/mnt/CEPH_PROJECTS/SNOWCOP/Paloma/Area06/daily_v2",
+  "outdir": "/mnt/CEPH_PROJECTS/SNOWCOP/Paloma/Area06/sca_harm_v2",
+  "DEM_path": "/mnt/CEPH_PROJECTS/SNOWCOP/Paloma/Area06/S2-new/01_TEST_auxiliary_folder/DEM.tif",
+  "temp_dir": "/mnt/CEPH_PROJECTS/SNOWCOP/Paloma/Area06/Micromet/outputs/Temperature_biascorr",
+  "era5_dir": "/mnt/CEPH_PROJECTS/SNOWCOP/Paloma/Area06/Micromet/inputs/climate",
   "pixel_ratio": 10
 }

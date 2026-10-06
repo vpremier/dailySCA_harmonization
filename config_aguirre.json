@@ -1,0 +1,11 @@
+{
+  "catchment": "Aguirre",
+  "hy_xxxx": "hy2021",
+  "emisphere": "South",
+  "dirname": "/mnt/CEPH_PROJECTS/SNOWCOP/Dataset_eotraining/daillySCA",
+  "outdir": "/mnt/CEPH_PROJECTS/SNOWCOP/Dataset_eotraining/sca_harm",
+  "DEM_path": "/mnt/CEPH_PROJECTS/SNOWCOP/Dataset_eotraining/Sentinel2/01_TEST_auxiliary_folder/DEM.tif",
+  "temp_dir": "/mnt/CEPH_PROJECTS/SNOWCOP/Dataset_eotraining/Micromet/outputs/Temperature_biascorr",
+  "era5_dir": "/mnt/CEPH_PROJECTS/SNOWCOP/Dataset_eotraining/Micromet/inputs/climate",
+  "pixel_ratio": 25
+}

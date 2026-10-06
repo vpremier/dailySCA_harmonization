@@ -21,7 +21,7 @@ def correct_rec_acc(date, stack_HR, status,
     # changes: exclude date and ceil for accumulation
 
     # mask the recent accumulation
-    rec_acc = ((status.sel(time=date)==1) & (delta_last_acc<old_acc))
+    rec_acc = ((status.sel(time=date)>=0) & (delta_last_acc<old_acc))
 
     # check the dates within a temporal window (of +- 5 days)
     stack_HR_window = stack_HR.sel(time=slice(date-w,date+w))['SCA']
@@ -82,7 +82,7 @@ def correct_old_acc(date, stack_HR, status, HR_dates,
                delta_last_acc, w, t_min, old_acc=10):
     
     # mask old accumulation
-    old_acc = ((status.sel(time=date)==1) & (delta_last_acc>=old_acc)) 
+    old_acc = ((status.sel(time=date)>=0) & (delta_last_acc>=old_acc)) 
     
     # select only the indices that correspond to a HR acquisition
     snow_array = stack_HR.sel(time=HR_dates[HR_dates].index)  
@@ -155,7 +155,7 @@ def correct_rec_melt(date, stack_HR, status,
                      delta_last_acc, w, t_min, old_acc=10):
     
     # recent accumulation, full season. Check also what happens later
-    rec_melt = ((status.sel(time=date)==0) & (delta_last_acc<old_acc)) 
+    rec_melt = ((status.sel(time=date)<=0) & (delta_last_acc<old_acc)) 
  
     # check the dates within a temporal window (of +- 5 days)
     stack_HR_window = stack_HR.sel(time=slice(date-w,date+w))['SCA']
@@ -201,7 +201,7 @@ def correct_rec_melt(date, stack_HR, status,
 def correct_old_melt(date, stack_HR, status, HR_dates, acc_HR, 
                      ix_prev_acc, delta_last_acc, w, t_min, old_acc=10):
     # old accumulation
-    old_melt = ((status.sel(time=date)==0) & (delta_last_acc>=old_acc)) #.astype(int) 
+    old_melt = ((status.sel(time=date)<=0) & (delta_last_acc>=old_acc)) #.astype(int) 
     
     
     # select only the indices that correspond to a HR acquisition

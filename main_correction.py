@@ -40,7 +40,7 @@ def corection(sca_slice, df, HR_dates, status, w=5):
 
         ix = df.index.get_loc(date)
         print(ix,date)
-
+        
     
         start_time = time.time()
         
@@ -58,6 +58,8 @@ def corection(sca_slice, df, HR_dates, status, w=5):
         # melting: transition from snow to snow free
         melt_HR = valid_HR & np.logical_and(HR_prev==100, HR_curr==0)
     
+        if acc_HR.sum(dim=['x','y']) > 1000:
+            ss
     
         # get index of the previous accumulation and melting
         status_slice = status.sel(time=slice(df.index[0],date-pd.Timedelta('1D')))
@@ -74,7 +76,7 @@ def corection(sca_slice, df, HR_dates, status, w=5):
             
             
         #previous melting
-        ix_prev_melt = (status_slice_rev == 0).argmax(dim='time', skipna=True)
+        ix_prev_melt = (status_slice_rev == -1).argmax(dim='time', skipna=True)
         ix_prev_melt = len(status_slice.time) - ix_prev_melt - 1
         ix_prev_melt =  xr.where((status_slice_rev == 0).sum(dim='time') > 0, ix_prev_melt, 0)
     
@@ -130,6 +132,9 @@ def run_harmonization(config_path):
 
     subbasin = None
     
+    pr_thresh = 2
+    T_thresh = 275.15
+    
     # load SCA
     sca_path = glob.glob(dirname + os.sep + '*' + hy_xxxx + '*.nc')[0]
     csv_path = sca_path.replace('.nc','.csv')
@@ -162,7 +167,17 @@ def run_harmonization(config_path):
         HR_dates = (df.filter(like="HR_fileName") != 'M').any(axis=1)
         
         # status
-        status = (ta['t2m'] < 275.15) & (pr_reprojected > 3)
+        # status = (ta['t2m'] < T_thresh) & (pr_reprojected > pr_thresh)
+        status = xr.where(
+                (ta['t2m'] < 275.15) & (pr_reprojected > pr_thresh),
+                1,
+                xr.where(
+                    ta['t2m'] > T_thresh,
+                    -1,
+                    0
+                )
+            ).astype('int8')
+        
         # status = buffer(status, n = 10)
         # status = set_all_to_one_per_timestep(status)
    
@@ -175,14 +190,14 @@ def run_harmonization(config_path):
         array =  sca_corr.transpose("y", "x","time").SCA.values
 
         save_nc(outname, array, info, df, 'SCA', 'percentage', 
-                scale=1, dtype = 'int32', complevel = 9)
+                scale=1, dtype = 'int32', complevel = 5)
         
         # plot 
         sca_harm_ts = sca_corr.where(sca_corr<=100).mean(dim=['x','y']).SCA.values       
         df = pd.read_csv(csv_path, parse_dates=[0], index_col=0)
         
         ta_mean = ta.mean(dim=['x','y']).t2m.values
-        pr_mean = pr_reprojected.where(pr_reprojected>0.1).mean(dim=['x','y']).values
+        pr_mean = pr_reprojected.where(pr_reprojected>pr_thresh).mean(dim=['x','y']).values
         status_ts = status.mean(dim=['x','y']).values
     
     
@@ -255,8 +270,23 @@ if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: python main.py path_to_config.json")
     else:
+        
+        # from dask_gateway import Gateway
+    
+        # gateway = Gateway("http://10.8.244.185:30080")
+        
+        # cluster = gateway.new_cluster()      # scheduler starts, 0 workers
+        # cluster.scale(2)                     # ask for 2 workers
+        # client = cluster.get_client()        # route all dask work here
+        
+        # print(cluster.dashboard_link)        # watch it live in a browser
+        
+                
+        # # # ... your normal dask code ...
+        
+        
         config_path = sys.argv[1]
-        config_path = r'/home/vpremier/Documents/git/dailySCA_harmonization/config.json'
+        config_path = r'/home/vpremier/Documents/git/dailySCA_harmonization/config_aguirre.json'
         start_time = time.time()
     
         run_harmonization(config_path)
@@ -270,6 +300,10 @@ if __name__ == "__main__":
         
         print("\nThe harmonization workflow run succefully.")
         print(f"Execution time: {elapsed_min} minutes and {elapsed_sec} seconds")
+        
+        
+        # client.close()                       # disconnect the local client
+        # cluster.shutdown()                   # stop the workers and the scheduler
         
         
      

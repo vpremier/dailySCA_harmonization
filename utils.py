@@ -221,7 +221,8 @@ def save_nc(outname, array, info, df, varname, unit, scale=1, dtype = 'int32',
         varname: {
             'zlib': True,
             'complevel': complevel,
-            'dtype': dtype
+            'dtype': dtype,
+            'grid_mapping': 'spatial_ref'
         }
     }
     
@@ -980,4 +981,3 @@ def get_mask_indices(mask, info, shape, resType='HR', pixel_ratio=20):
     indices = (i0, iend, j0, jend)
     mask_shape = ~mask
     return indices, mask_shape
-

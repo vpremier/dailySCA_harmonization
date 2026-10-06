@@ -14,9 +14,10 @@ micromamba activate snowmap
 SCRIPT_PATH="./main_correction.py"
 CONFIG_PATH="./config.json"
 
-for year in 1314 1415 1516 1617 1718 1819 1920 2021 2122 2223; do
+for year in 2021 1314 1415 1516 1617 1718 1819 1920 2122 2223; do
   new_val="hy${year}"
-  for catch in Area01 Area02 Area03 Area04 Area05 Area06 Area07 Area08 Area09 Area10; do
+  for catch in Area06; do
+  # for catch in Area01 Area02 Area03 Area04 Area05 Area06 Area07 Area08 Area09 Area10; do
   
     echo "=============================================="
     echo "Processing $new_val - $catch"
